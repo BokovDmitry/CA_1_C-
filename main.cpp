@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <map>
 #include <limits.h>
+#include <list>
 
 struct Car
 {
@@ -60,6 +61,15 @@ void displayCars(const std::vector<Car>& cars)
     for (const Car& car : cars)
     {
         std::cout << std::left << std::setw(15) << car.make << std::setw(20) << car.model << std::setw(10) << car.year << std::setw(10) << car.engineSize << std::setw(10) << (car.isElectric ? "Electric" : "Gas") << std::endl;
+    }
+}
+
+void displayCars(const std::list<Car>& cars)
+{
+    std::list<Car>::const_iterator it;
+    for(it = cars.cbegin(); it != cars.cend(); it++)
+    {
+        std::cout << std::left << std::setw(15) << it->make << std::setw(20) << it->model << std::setw(10) << it->year << std::setw(10) << it->engineSize << std::setw(10) << (it->isElectric ? "Electric" : "Gas") << std::endl;
     }
 }
 
@@ -135,10 +145,27 @@ int avgYear(const std::vector<Car>& cars)
     return sum / cars.size();
 }
 
+std::list<Car> findMatch(const std::vector<Car>& cars, const std::string& text)
+{
+    std::list<Car> carMatches;
+    std::vector<Car>::const_iterator it;
+    for(it = cars.cbegin(); it != cars.cend(); it++)
+    {
+        if(it->make.find(text) != std::string::npos || it->model.find(text) != std::string::npos)
+        {
+            carMatches.push_back(*it);
+        }
+    }
+
+    return carMatches;
+}
+
 
 int main()
 {
     std::vector<Car> cars = readCarsFromFile("MOCK_DATA(1).csv");
+    std::list<Car> carMatches = findMatch(cars, "Ford");
 
-    avgYear(cars);
+    displayCars(carMatches);
+    return 0;
 }
