@@ -12,11 +12,12 @@ void menu()
     std::map<std::string, int> carMakes;
     std::list<Car> carsByMatch;
     std::vector<Car> descendingCars;
+    minMaxEngineSize minMax = minMaxEngineSize();
 
     std::string devider = "----------------------------------------";
 
     do{
-        std::cout << devider << std::endl;
+        std::cout << "\n" << devider << std::endl;
         std::cout << "\n1. Display all cars" << std::endl;
         std::cout << "2. Find index of a car by model" << std::endl;
         std::cout << "3. Count car makes" << std::endl;
@@ -62,7 +63,13 @@ void menu()
             displayCars(findCarsByMake(cars, desiredMake));
             break;
         case 5:
-            avgYear(cars);
+            minMax = avgEngineSize(cars);
+            std::cout << "\nAverage Engine Size: " << minMax.avgEngineSize << "L" << std::endl;
+            std::cout << "\nCar with the smallest engine: ";
+            displayCar(minMax.minEngineCar);
+            std::cout << "\nCar with the largest engine: ";
+            displayCar(minMax.maxEngineCar);
+
             break;
         case 6:
             std::cout << "Enter a part of the car's make or model: ";

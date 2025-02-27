@@ -18,6 +18,13 @@ struct Car
     bool isElectric;
 };
 
+struct minMaxEngineSize 
+{
+    Car minEngineCar;
+    Car maxEngineCar;
+    int avgEngineSize;
+};
+
 void parse(const std::string& line, std::string& make, std::string& model, int& year, double& engineSize, bool& isElectric)
 {
     std::stringstream ss(line);
@@ -116,13 +123,45 @@ std::vector<Car> findCarsByMake(const std::vector<Car>& cars, const std::string&
     return carsByMake;
 }
 
-int avgYear(const std::vector<Car>& cars)
+// int avgYear(const std::vector<Car>& cars)
+// {
+//     int sum = 0;
+//     int maxEngine = 0;
+//     Car minEngineCar = Car();
+//     Car maxEngineCar = Car();
+//     int minEngine = INT_MAX;
+
+//     for (const Car& car : cars)
+//     {
+//         if(car.engineSize > maxEngine)
+//         {
+//             maxEngine = car.engineSize;
+//             maxEngineCar = car;
+//         }
+
+//         if(car.engineSize < minEngine)
+//         {
+//             minEngine = car.engineSize;
+//             minEngineCar = car;
+//         }
+            
+//         sum += car.engineSize;
+//     }
+//     std::cout << "\nAverage Car Engime Size: " << sum / cars.size() << "L\n";
+//     std::cout << "\nCar with the smallest engine: ";
+//     displayCar(minEngineCar);
+//     std::cout << "\nCar with the largest engine: ";
+//     displayCar(maxEngineCar);
+//     return sum / cars.size();
+// }
+
+minMaxEngineSize avgEngineSize(const std::vector<Car>& cars)
 {
-    int sum = 0;
-    int maxEngine = 0;
+    double sum = 0;
+    double maxEngine = 0;
     Car minEngineCar = Car();
     Car maxEngineCar = Car();
-    int minEngine = INT_MAX;
+    double minEngine = INT_MAX;
 
     for (const Car& car : cars)
     {
@@ -140,12 +179,7 @@ int avgYear(const std::vector<Car>& cars)
             
         sum += car.engineSize;
     }
-    std::cout << "Average Car Engime Size: " << sum / cars.size() << "L\n";
-    std::cout << "\nCar with the smallest engine: ";
-    displayCar(minEngineCar);
-    std::cout << "\nCar with the largest engine: ";
-    displayCar(maxEngineCar);
-    return sum / cars.size();
+    return {minEngineCar, maxEngineCar, sum / cars.size()};
 }
 
 std::list<Car> findMatch(const std::vector<Car>& cars, const std::string& text)
