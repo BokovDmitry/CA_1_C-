@@ -140,7 +140,7 @@ int avgYear(const std::vector<Car>& cars)
             
         sum += car.engineSize;
     }
-    std::cout << "Average Car Engime Size: " << sum / cars.size() << "L";
+    std::cout << "Average Car Engime Size: " << sum / cars.size() << "L\n";
     std::cout << "\nCar with the smallest engine: ";
     displayCar(minEngineCar);
     std::cout << "\nCar with the largest engine: ";

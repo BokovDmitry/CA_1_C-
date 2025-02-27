@@ -5,22 +5,31 @@ void menu()
     std::vector<Car> cars = readCarsFromFile("MOCK_DATA(1).csv");
 
     int option = 0;
-    std::string desiredModel;
-    std::string desiredMake;
     int index = 0;
+    std::string optionStr = "";
+    std::string desiredModel = "";
+    std::string desiredMake = "";
+    std::map<std::string, int> carMakes;
+    std::list<Car> carsByMatch;
+    std::vector<Car> descendingCars;
+
+    std::string devider = "----------------------------------------";
 
     do{
-        std::cout << "1. Display all cars" << std::endl;
+        std::cout << devider << std::endl;
+        std::cout << "\n1. Display all cars" << std::endl;
         std::cout << "2. Find index of a car by model" << std::endl;
         std::cout << "3. Count car makes" << std::endl;
         std::cout << "4. Display cars by make" << std::endl;
         std::cout << "5. Display average year, car with min/max engine size" << std::endl;
         std::cout << "6. Search a car" << std::endl;
         std::cout << "7. Sort cars in a descendeing order" << std::endl;
-        std::cout << "8. Exit" << std::endl;
+        std::cout << "8. Exit\n" << std::endl;
+        std::cout << devider << std::endl;
 
         std::cout << "Enter your choice: ";
-        std::cin >> option;
+        getline(std::cin, optionStr);
+        option = stoi(optionStr);
 
         switch (option)
         {
@@ -41,7 +50,11 @@ void menu()
             }
             break;
         case 3:
-            countCarMakes(cars);
+            carMakes = countCarMakes(cars);
+            for (const auto& make : carMakes)
+            {
+                std::cout << make.first << ": " << make.second << std::endl;
+            }
             break;
         case 4:
             std::cout << "Enter make: ";
@@ -54,10 +67,15 @@ void menu()
         case 6:
             std::cout << "Enter a part of the car's make or model: ";
             getline(std::cin, desiredModel);
-            findMatch(cars, desiredModel);
+            carsByMatch = findMatch(cars, desiredModel);
+            displayCars(carsByMatch);
             break;
         case 7:
-            sortDescending(cars);
+            descendingCars = sortDescending(cars);
+            displayCars(descendingCars);
+            break;
+        case 8:
+            std::cout << "Exiting..." << std::endl;
             break;
         default:
             std::cout << "Invalid option" << std::endl;
